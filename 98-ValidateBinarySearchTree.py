@@ -40,47 +40,48 @@ class Solution(object):
         :rtype: bool
         """
         # latonn's
-    #     if root is None:
-    #         return True
-    #     inOrderPath = []
-    #     self.InOrderTraversal(root, inOrderPath)
-    #     for i in range(len(inOrderPath) - 1):
-    #         if inOrderPath[i] >= inOrderPath[i+1]:
-    #             return False
-    #     return True
-    #
-    # def InOrderTraversal(self, node, inOrderPath):
-    #     if node is None:
-    #         return
-    #     self.InOrderTraversal(node.left, inOrderPath)
-    #     inOrderPath.append(node.val)
-    #     self.InOrderTraversal(node.right, inOrderPath)
+        if root is None:
+            return True
+        inOrderPath = []
+        self.InOrderTraversal(root, inOrderPath)
+        for i in range(len(inOrderPath) - 1):
+            if inOrderPath[i] >= inOrderPath[i+1]:
+                return False
+        return True
+
+    def InOrderTraversal(self, node, inOrderPath):
+        if node is None:
+            return
+        self.InOrderTraversal(node.left, inOrderPath)
+        inOrderPath.append(node.val)
+        self.InOrderTraversal(node.right, inOrderPath)
 
         # kamyu's
         # Morris traversal ( Binary tree traversal with O(n) time complexity and O(1) space complexity )
-        prev, cur = None, root
-        while cur:
-            if cur.left is None:
-                if prev and prev.val >= cur.val:
-                    return False
-                prev = cur
-                cur = cur.right
-            else:
-                node = cur.left
-                while node.right and node.right != cur:
-                    node = node.right
+        # prev, cur = None, root
+        # while cur:
+        #     if cur.left is None:
+        #         if prev and prev.val >= cur.val:
+        #             return False
+        #         prev = cur
+        #         cur = cur.right
+        #     else:
+        #         node = cur.left
+        #         while node.right and node.right != cur:
+        #             node = node.right
+        #
+        #         if node.right is None:
+        #             node.right = cur
+        #             cur = cur.left
+        #         else:
+        #             if prev and prev.val >= cur.val:
+        #                 return False
+        #             node.right = None
+        #             prev = cur
+        #             cur = cur.right
+        #
+        # return True
 
-                if node.right is None:
-                    node.right = cur
-                    cur = cur.left
-                else:
-                    if prev and prev.val >= cur.val:
-                        return False
-                    node.right = None
-                    prev = cur
-                    cur = cur.right
-
-        return True
 
 if __name__ == '__main__':
     root = TreeNode(10)
