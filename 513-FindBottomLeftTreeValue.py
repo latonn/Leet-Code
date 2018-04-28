@@ -49,19 +49,19 @@ class Solution(object):
         bottom = max(LOT.keys())
         return LOT[bottom][0].val
 
-    def LevelOrderTraversal(self, node, depth, LOT):
+    def levelOrderTraversal(self, node, depth, lot):
         if node is None:
-            return LOT
+            return lot
 
-        if depth in LOT.keys():
-            LOT[depth].append(node)
+        if depth in lot.keys():
+            lot[depth].append(node)
         else:
-            LOT.setdefault(depth, [])
-            LOT[depth].append(node)
+            lot.setdefault(depth, [])
+            lot[depth].append(node)
 
-        LOT = self.LevelOrderTraversal(node.left, depth+1, LOT)
-        LOT = self.LevelOrderTraversal(node.right, depth+1, LOT)
-        return LOT
+        self.levelOrderTraversal(node.right, depth+1, lot)
+        self.levelOrderTraversal(node.left, depth+1, lot)
+        return lot
 
 
 if __name__ == '__main__':
