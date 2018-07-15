@@ -28,24 +28,10 @@ class Solution(object):
             for j in range(len(grid[0])):
                 if grid[i][j] == 1:
                     ans += 4
-                    if i == 0 and j == 0:
-                        ans = ans - grid[i+1][j] - grid[i][j+1]
-                    elif i == 0 and j == len(grid[0]):
-                        ans = ans - grid[i+1][j] - grid[i][j-1]
-                    elif i == len(grid) and j == 0:
-                        ans = ans - grid[i-1][j] - grid[i][j+1]
-                    elif i == len(grid) and j == len(grid[0]):
-                        ans = ans - grid[i-1][j] - grid[i][j-1]
-                    elif i == 0:
-                        ans = ans - grid[i+1][j] - grid[i][j-1] - grid[i][j+1]
-                    elif i == len(grid):
-                        ans = ans - grid[i-1][j] - grid[i][j-1] - grid[i][j+1]
-                    elif j == 0:
-                        ans = ans - grid[i+1][j] - grid[i-1][j] - grid[i][j+1]
-                    elif j == len(grid[0]):
-                        ans = ans - grid[i+1][j] - grid[i-1][j] - grid[i][j-1]
-                    else:
-                        ans = ans - grid[i+1][j] - grid[i-1][j] - grid[i][j-1] - grid[i][j+1]
+                    if i > 0 and grid[i-1][j] == 1:
+                        ans -= 2
+                    if j > 0 and grid[i][j-1] == 1:
+                        ans -= 2
         return ans
 
 
