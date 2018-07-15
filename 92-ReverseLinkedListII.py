@@ -17,6 +17,9 @@ class ListNode(object):
         self.val = x
         self.next = None
 
+    def __repr__(self):
+        if self:
+            return "{} -> {}".format(self.val, self.next)
 
 class Solution(object):
     def reverseBetween(self, head, m, n):
@@ -43,6 +46,7 @@ class Solution(object):
             cur.next = revStart.next
             revStart.next = revStart.next.next
             cur.next.next = tmp
+            # print(head.__repr__())
 
         return dummy.next
 
@@ -51,8 +55,6 @@ if __name__ == '__main__':
     head = ListNode(1)
     head.next, head.next.next = ListNode(2), ListNode(3)
     head.next.next.next, head.next.next.next.next = ListNode(4), ListNode(5)
-    m, n = 2, 4
+    m, n = 2, 5
     head = Solution().reverseBetween(head, m, n)
-    while head:
-        print(head.val)
-        head = head.next
+    print(head.__repr__())
