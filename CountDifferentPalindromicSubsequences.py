@@ -1,37 +1,35 @@
 class Solution(object):
-    def maxSumOfThreeSubarrays(self, nums, k):
+    def countPalindromicSubsequences(self, S):
         """
-        :type nums: List[int]
-        :type k: int
-        :rtype: List[int]
+        :type S: str
+        :rtype: int
         """
-        # refer from http://bookshadow.com/weblog/2017/10/01/leetcode-maximum-sum-of-3-non-overlapping-subarrays/
-        size = len(nums)
-        nsize = size - k + 1
-        sums = [0] * nsize
-        maxa = [0] * nsize
-        maxb = [0] * nsize
-        total = 0
+        # refer from http://bookshadow.com/weblog/2017/11/20/leetcode-count-different-palindromic-subsequences/
+        size = len(S)
+        next = [{k : -1 for k in 'abcd'} for x in range(size + 1)]
+        prev = [{k : -1 for k in 'abcd'} for x in range(size + 1)]
         for x in range(size):
-            total += nums[x]
-            if x >= k - 1:
-                sums[x - k + 1] = total
-                total -= nums[x - k + 1]
-        maxn, maxi = 0, 0
-        for x in range(nsize):
-            if sums[x] > maxn:
-                maxn, maxi = sums[x], x
-            maxa[x] = (maxn, maxi)
-        maxn, maxi = 0, nsize - 1
-        for x in range(nsize - 1, -1, -1):
-            if sums[x] > maxn:
-                maxn, maxi = sums[x], x
-            maxb[x] = (maxn, maxi)
-        ansn, ansi = 0, None
-        for x in range(k, nsize - k):
-            va, ia = maxa[x - k]
-            vb, ib = maxb[x + k]
-            if sums[x] + va + vb > ansn:
-                ansn = sums[x] + va + vb
-                ansi = [ia, x, ib]
-        return ansi 
+            for k in 'abcd':
+                if S[x] == k: prev[x][k] = x
+                else: prev[x][k] = prev[x - 1][k]
+
+        for x in range(size - 1, -1, -1):
+            for k in 'abcd':
+                if S[x] == k: next[x][k] = x
+                else: next[x][k] = next[x + 1][k]
+
+        dmap = [[0] * (size + 1) for x in range(size + 1)]
+
+        def solve(i, j):
+            if i > j: return 0
+            if dmap[i][j]: return dmap[i][j]
+            ans = 0
+            for k in 'abcd':
+                ii, jj = next[i][k], prev[j][k]
+                if ii < 0: continue
+                if ii < jj: ans += 1
+                if ii <= j: ans += solve(ii + 1, jj - 1) + 1
+            dmap[i][j] = ans % (10 ** 9 + 7)
+            return dmap[i][j]
+
+        return solve(0, size - 1)
